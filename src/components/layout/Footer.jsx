@@ -1,5 +1,5 @@
 const socials = [
-  { label: 'Instagram', href: 'https://www.instagram.com/quicami' },
+  { label: 'Instagram', href: 'https://www.instagram.com/hi.camifilm' },
   { label: 'WhatsApp', href: 'https://wa.me/573195253657' },
   // { label: 'Behance', href: 'https://behance.net' },
   // { label: 'Vimeo', href: 'https://vimeo.com' },
