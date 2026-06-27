@@ -108,8 +108,8 @@ export default function About() {
                 { name: 'JARSFILMMAKERS', url: 'https://www.instagram.com/jarsfilmmakers' },
                 { name: 'DREAM WEAR', url: 'https://www.instagram.com/dreamwear_club' },
                 { name: 'DANNY LORA', url: 'https://www.instagram.com/dannyclora' },
-                { name: 'Color Blue', url: '#' },
-                { name: 'Hojasdevida.es', url: 'https://www.instagram.com/hojasdevida.es' },
+                { name: 'COLOR BLUE', url: '#' },
+                { name: 'HOJASDEVIDA.ES', url: 'https://www.instagram.com/hojasdevida.es' },
               ].map((brand) => (
                 <a
                   key={brand.name}
@@ -124,6 +124,7 @@ export default function About() {
             </div>
           </Reveal>
         </div>
+
       </div>
     </section>
   )

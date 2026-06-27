@@ -46,11 +46,6 @@ export default function Footer() {
           ))}
         </ul>
       </div>
-
-      <div className="mt-12 flex flex-col gap-2 border-t hairline pt-6 font-mono text-[11px] uppercase tracking-[0.15em] text-smoke md:flex-row md:justify-between">
-        <span>© {new Date().getFullYear()} Camila Quiceno</span>
-        <span>Filmmaker & Editor · Colombia</span>
-      </div>
     </footer>
   )
 }
