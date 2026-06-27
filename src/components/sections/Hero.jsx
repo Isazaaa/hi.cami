@@ -49,7 +49,7 @@ export default function Hero() {
           transition={{ delay: 0.1, duration: 0.6 }}
           className="mb-6 block font-mono text-[11px] uppercase tracking-[0.3em] text-smoke"
         >
-          Camila Quiceno — Filmmaker & Editor
+          Camila Quiceno — Filmmaker · Editor · Director
         </motion.span>
 
         <h1 className="font-display text-[15vw] leading-[0.85] tracking-tight text-paper md:text-[11vw]">
@@ -68,11 +68,20 @@ export default function Hero() {
           ))}
         </h1>
 
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65, duration: 0.5 }}
+          className="mt-6 font-sans text-sm italic leading-relaxed text-paper/50 md:text-base"
+        >
+          Stories rooted in real people
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-8 flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke md:flex-row md:gap-10"
+          className="mt-6 flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke md:flex-row md:gap-10"
         >
           <span>Comerciales · Documentales · Cortometrajes</span>
           <span>Basada en Colombia · Disponible mundialmente</span>
