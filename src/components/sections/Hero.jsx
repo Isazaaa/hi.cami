@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import BlurImage from '../ui/BlurImage'
 
-const title = ['CREO', 'IMÁGENES', 'QUE', 'RESPIRAN']
+const title = ['CUENTO', 'HISTORIAS', 'QUE', 'LATEN']
 
 const word = {
   hidden: { y: '110%' },
