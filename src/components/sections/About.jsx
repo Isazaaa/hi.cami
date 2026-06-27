@@ -4,8 +4,8 @@ import BlurImage from '../ui/BlurImage'
 import Reveal from '../ui/Reveal'
 
 const paragraphs = [
-  'Soy Camila Quiceno. Hago piezas audiovisuales — comerciales, documentales y cortometrajes — para marcas y artistas que entienden la imagen en movimiento como lenguaje, no como decoración.',
-  'Edito con el ojo puesto en lo que duele o emociona. Creo que una historia bien contada no necesita artificios: necesita ritmo, silencio y el corte justo.',
+  'Soy Cami, filmmaker, editora y directora creativa. Pero, sobre todo, soy una ser que disfruta contar historias.',
+  'Creo que las mejores historias no siempre nacen de grandes producciones; muchas veces están en una conversación, en un barrio, en una mirada o en esos momentos cotidianos que pasan desapercibidos. Mi trabajo consiste en encontrarlos y transformarlos en piezas audiovisuales que conecten con las personas.',
 ]
 
 const stats = [
@@ -93,6 +93,34 @@ export default function About() {
               </p>
             </Reveal>
           ))}
+        </div>
+
+        {/* Brands */}
+        <div className="mt-12 border-t hairline pt-8">
+          <Reveal as="p" index={3} className="font-mono text-[10px] uppercase tracking-[0.3em] text-smoke">
+            Marcas con las que he trabajado
+          </Reveal>
+          <Reveal index={4}>
+            <div className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
+              {[
+                { name: 'SOMOSFURY', url: 'https://www.instagram.com/somosfury' },
+                { name: 'CORELIN_VISUAL', url: 'https://www.instagram.com/corelin_visual' },
+                { name: 'JARSFILMMAKERS', url: 'https://www.instagram.com/jarsfilmmakers' },
+                { name: 'DREAM WEAR', url: 'https://www.instagram.com/dreamwear_club' },
+                { name: 'DANNY LORA', url: 'https://www.instagram.com/dannyclora' },
+              ].map((brand) => (
+                <a
+                  key={brand.name}
+                  href={brand.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display text-xl tracking-tight text-paper/60 transition-colors duration-300 hover:text-paper md:text-2xl"
+                >
+                  {brand.name}
+                </a>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

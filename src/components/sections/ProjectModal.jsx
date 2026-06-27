@@ -1,5 +1,18 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+
+/**
+ * Normalise any YouTube URL (youtu.be, youtube.com/watch, etc.)
+ * into an embeddable `https://www.youtube.com/embed/ID?autoplay=1`.
+ * Strips tracking params like `si`.
+ */
+function embedUrl(raw) {
+  const match = raw.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|watch\?v=))([\w-]+)/,
+  )
+  if (!match) return raw // not a recognised YouTube format → passthrough
+  return `https://www.youtube.com/embed/${match[1]}?autoplay=1`
+}
 
 const aspectClass = {
   tall: 'aspect-[3/4]',
@@ -63,11 +76,12 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
           animate="visible"
           exit="hidden"
         >
-          {/* Backdrop */}
+          {/* Backdrop — fade matches the media morph (0.5s) so on close the
+              image never floats over the page after the backdrop is gone. */}
           <motion.div
             onClick={onClose}
             variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            transition={{ duration: 0.35, ease: EASE }}
+            transition={{ duration: 0.5, ease: EASE }}
             className="absolute inset-0 bg-ink/95 backdrop-blur-xl"
           />
 
@@ -126,11 +140,20 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
               >
                 {project.videoUrl ? (
                   <iframe
-                    src={project.videoUrl}
+                    src={embedUrl(project.videoUrl)}
                     title={project.title}
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
                     className="absolute inset-0 h-full w-full"
+                  />
+                ) : project.videoFile ? (
+                  <video
+                    key={project.id}
+                    src={project.videoFile}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="absolute inset-0 h-full w-full object-contain bg-black"
                   />
                 ) : (
                   <motion.img

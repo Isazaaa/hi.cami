@@ -4,28 +4,42 @@ import { projects, categories } from '../../data/projects'
 import BlurImage from '../ui/BlurImage'
 import ProjectModal from './ProjectModal'
 
+const EASE = [0.16, 1, 0.3, 1]
+
 const aspectClass = {
   tall: 'row-span-2 aspect-[3/4]',
   wide: 'aspect-[16/10]',
   square: 'aspect-square',
 }
 
+// Unified transition for grid reordering: position morphs slowly and smoothly,
+// while opacity/scale resolve faster so cards never linger or overlap.
+const cardTransition = {
+  layout: { duration: 0.5, ease: EASE },
+  opacity: { duration: 0.3, ease: 'easeOut' },
+  scale: { duration: 0.35, ease: EASE },
+}
+
 function ProjectCard({ project, onOpen }) {
   return (
     <motion.article
       layout
-      layoutId={project.id}
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      exit={{ opacity: 0, scale: 0.92 }}
+      transition={cardTransition}
       onClick={onOpen}
       className={`group relative cursor-pointer overflow-hidden ${aspectClass[project.aspect]}`}
     >
       {/* Shared-element wrapper: morphs into the lightbox on open.
+          Same EASE/duration as the modal so open AND close feel identical.
           Mobile/touch: full color + clear by default (no hover available).
           Desktop (can-hover): lens-focus effect — desaturated, sharpens on hover. */}
-      <motion.div layoutId={`media-${project.id}`} className="absolute inset-0">
+      <motion.div
+        layoutId={`media-${project.id}`}
+        transition={{ duration: 0.5, ease: EASE }}
+        className="absolute inset-0"
+      >
         <div className="h-full w-full transition-transform duration-500 ease-out can-hover:group-hover:scale-105">
           <BlurImage
             src={project.src}
@@ -85,7 +99,7 @@ export default function Portfolio() {
             02 — Portafolio
           </span>
           <h2 className="mt-3 font-display text-6xl leading-none tracking-tight text-paper md:text-8xl">
-            TRABAJO
+            CREADO
           </h2>
         </div>
 
@@ -119,11 +133,13 @@ export default function Portfolio() {
         </LayoutGroup>
       </div>
 
-      {/* Masonry grid with animated layout reordering */}
+      {/* Grid with animated layout reordering. No `auto-rows` so aspect-ratio
+          drives card height cleanly (the 1fr rows used to fight the morph). */}
       <LayoutGroup>
         <motion.div
           layout
-          className="grid auto-rows-[minmax(0,1fr)] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          transition={{ duration: 0.5, ease: EASE }}
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((project, i) => (

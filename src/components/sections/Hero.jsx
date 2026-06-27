@@ -83,7 +83,7 @@ export default function Hero() {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="mt-6 flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke md:flex-row md:gap-10"
         >
-          <span>Comerciales · Documentales · Cortometrajes</span>
+          <span>Filmmaker - Video Editor - Creative Director</span>
           <span>Basada en Colombia · Disponible mundialmente</span>
         </motion.div>
       </motion.div>
