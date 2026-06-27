@@ -153,6 +153,7 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
                 key={`info-${project.id}`}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 16 }}
                 transition={{ duration: 0.45, ease: EASE, delay: 0.15 }}
                 className="w-full shrink-0 lg:w-72"
               >
