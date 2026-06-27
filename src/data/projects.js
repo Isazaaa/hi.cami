@@ -16,7 +16,7 @@ export const projects = [
     title: 'Aves de Paso',
     category: 'documental',
     year: '2024',
-    location: 'Costa Pacífica, CO',
+    location: 'Costa Rica',
     aspect: 'wide',
     file: 'camila3.jpeg',
     description:
@@ -27,7 +27,7 @@ export const projects = [
     title: 'La Orilla',
     category: 'documental',
     year: '2025',
-    location: 'Guatapé, CO',
+    location: 'California',
     aspect: 'wide',
     file: 'camila4.jpeg',
     description:
