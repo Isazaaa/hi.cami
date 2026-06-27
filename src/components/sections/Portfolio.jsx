@@ -22,35 +22,36 @@ function ProjectCard({ project, onOpen }) {
       onClick={onOpen}
       className={`group relative cursor-pointer overflow-hidden ${aspectClass[project.aspect]}`}
     >
-      {/* Shared-element wrapper: morphs into the lightbox on open */}
+      {/* Shared-element wrapper: morphs into the lightbox on open.
+          Mobile/touch: full color + clear by default (no hover available).
+          Desktop (can-hover): lens-focus effect — desaturated, sharpens on hover. */}
       <motion.div layoutId={`media-${project.id}`} className="absolute inset-0">
-        {/* Lens-focus effect: starts soft + desaturated, sharpens on hover */}
-        <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-105">
+        <div className="h-full w-full transition-transform duration-500 ease-out can-hover:group-hover:scale-105">
           <BlurImage
             src={project.src}
             placeholder={project.placeholder}
             alt={project.title}
-            className="h-full w-full grayscale brightness-90 contrast-110 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:brightness-100"
+            className="h-full w-full transition-all duration-500 ease-out can-hover:grayscale can-hover:brightness-90 can-hover:contrast-110 can-hover:group-hover:grayscale-0 can-hover:group-hover:brightness-100"
           />
         </div>
       </motion.div>
 
-      {/* Darkening + focus-ring overlay */}
-      <div className="absolute inset-0 bg-ink/20 transition-colors duration-500 group-hover:bg-ink/40" />
-      <div className="pointer-events-none absolute inset-4 border border-paper/0 transition-colors duration-500 group-hover:border-paper/30" />
+      {/* Legibility gradient (always) + hover darkening (desktop only) */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent transition-colors duration-500 can-hover:from-ink/40 can-hover:group-hover:from-ink/70" />
+      <div className="pointer-events-none absolute inset-4 border border-paper/0 transition-colors duration-500 can-hover:group-hover:border-paper/30" />
 
-      {/* Metadata reveal */}
+      {/* Metadata — visible by default on touch, revealed on hover on desktop */}
       <div className="absolute inset-0 flex flex-col justify-between p-5">
         <div className="flex items-start justify-between">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/0 transition-all duration-500 group-hover:text-paper/80">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/80 transition-all duration-500 can-hover:text-paper/0 can-hover:group-hover:text-paper/80">
             {project.location}
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/0 transition-all duration-500 group-hover:text-paper/80">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/80 transition-all duration-500 can-hover:text-paper/0 can-hover:group-hover:text-paper/80">
             {project.year}
           </span>
         </div>
 
-        <div className="translate-y-3 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="translate-y-0 opacity-100 transition-all duration-500 ease-out can-hover:translate-y-3 can-hover:opacity-0 can-hover:group-hover:translate-y-0 can-hover:group-hover:opacity-100">
           <h3 className="font-display text-2xl tracking-tight text-paper md:text-3xl">
             {project.title}
           </h3>

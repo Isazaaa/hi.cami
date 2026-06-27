@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Variants that only apply on devices with a real pointer (desktop).
+   Touch devices have no hover, so hover-only effects must NOT gate content. */
+@custom-variant can-hover (@media (hover: hover) and (pointer: fine));
+@custom-variant is-touch (@media (hover: none));
+
 /* ------------------------------------------------------------------ */
 /* Design tokens — premium monochrome system                          */
 /* ------------------------------------------------------------------ */

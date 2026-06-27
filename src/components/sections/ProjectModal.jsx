@@ -8,12 +8,13 @@ const aspectClass = {
 }
 
 const EASE = [0.16, 1, 0.3, 1]
+const SWIPE_THRESHOLD = 70
 
 /**
  * Shared-element lightbox. The media wrapper carries the same `layoutId` as the
  * grid card (`media-${id}`), so opening/closing/navigating morphs the thumbnail
- * into the large view. Supports keyboard nav (← → Esc), prev/next, a counter,
- * an editorial metadata panel, and optional video embeds.
+ * into the large view. Supports keyboard nav (← → Esc), swipe/drag, prev/next
+ * controls, a counter, an editorial metadata panel, and optional video embeds.
  */
 export default function ProjectModal({ items, index, onClose, onNavigate }) {
   const project = index != null ? items[index] : null
@@ -48,6 +49,11 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
     }
   }, [project, onClose, next, prev])
 
+  const handleDragEnd = (_, info) => {
+    if (info.offset.x <= -SWIPE_THRESHOLD) next()
+    else if (info.offset.x >= SWIPE_THRESHOLD) prev()
+  }
+
   return (
     <AnimatePresence>
       {project && (
@@ -60,10 +66,7 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
           {/* Backdrop */}
           <motion.div
             onClick={onClose}
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1 },
-            }}
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
             transition={{ duration: 0.35, ease: EASE }}
             className="absolute inset-0 bg-ink/95 backdrop-blur-xl"
           />
@@ -75,7 +78,7 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.4, ease: EASE, delay: 0.1 }}
-            className="relative z-10 flex items-center justify-between px-6 py-5 md:px-10"
+            className="relative z-10 flex items-center justify-between px-5 py-4 md:px-10 md:py-5"
           >
             <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-smoke">
               {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
@@ -88,29 +91,38 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
               <span className="hidden font-mono text-[11px] uppercase tracking-[0.2em] text-smoke transition-colors group-hover:text-paper sm:block">
                 Cerrar
               </span>
-              <span className="relative flex h-4 w-4 items-center justify-center">
-                <span className="absolute h-[1.5px] w-5 rotate-45 bg-paper transition-transform group-hover:rotate-[135deg]" />
-                <span className="absolute h-[1.5px] w-5 -rotate-45 bg-paper transition-transform group-hover:rotate-45" />
+              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/20 bg-ink/40 backdrop-blur-md transition-colors group-hover:bg-paper group-hover:text-ink">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-paper transition-colors group-hover:text-ink">
+                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+                </svg>
               </span>
             </button>
           </motion.div>
 
           {/* Stage */}
-          <div className="relative z-10 flex flex-1 items-center justify-center px-4 pb-6 md:px-10">
-            {/* Prev / Next */}
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pb-5 md:px-10">
+            {/* Desktop side arrows */}
             {total > 1 && (
               <>
-                <NavArrow side="left" onClick={prev} />
-                <NavArrow side="right" onClick={next} />
+                <ArrowButton
+                  dir="left"
+                  onClick={prev}
+                  className="absolute left-4 top-1/2 hidden -translate-y-1/2 lg:flex"
+                />
+                <ArrowButton
+                  dir="right"
+                  onClick={next}
+                  className="absolute right-4 top-1/2 hidden -translate-y-1/2 lg:flex"
+                />
               </>
             )}
 
-            <div className="flex w-full max-w-6xl flex-col items-center gap-6 lg:flex-row lg:items-end lg:gap-12">
-              {/* Morphing media */}
+            <div className="flex w-full max-w-6xl flex-col items-center gap-5 lg:flex-row lg:items-end lg:gap-12">
+              {/* Morphing media + swipe layer */}
               <motion.div
                 layoutId={`media-${project.id}`}
                 transition={{ duration: 0.5, ease: EASE }}
-                className={`relative w-full overflow-hidden bg-fog lg:flex-1 ${aspectClass[project.aspect]} max-h-[72vh]`}
+                className={`relative w-full overflow-hidden rounded-sm bg-fog lg:flex-1 ${aspectClass[project.aspect]} max-h-[58vh] lg:max-h-[74vh]`}
               >
                 {project.videoUrl ? (
                   <iframe
@@ -121,42 +133,60 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
                     className="absolute inset-0 h-full w-full"
                   />
                 ) : (
-                  <img
+                  <motion.img
+                    key={project.id}
                     src={project.src}
                     alt={project.title}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    draggable={false}
+                    drag={total > 1 ? 'x' : false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.25}
+                    dragSnapToOrigin
+                    onDragEnd={handleDragEnd}
+                    className="absolute inset-0 h-full w-full touch-pan-y cursor-grab object-cover select-none active:cursor-grabbing"
                   />
                 )}
               </motion.div>
 
               {/* Editorial info panel */}
               <motion.div
-                key={project.id}
+                key={`info-${project.id}`}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, ease: EASE, delay: 0.15 }}
                 className="w-full shrink-0 lg:w-72"
               >
                 <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
-                  {project.category}
+                  {project.client ?? project.category}
                 </span>
-                <h3 className="mt-2 font-display text-4xl leading-none tracking-tight text-paper md:text-5xl">
+                <h3 className="mt-2 font-display text-3xl leading-none tracking-tight text-paper md:text-5xl">
                   {project.title}
                 </h3>
 
-                <dl className="mt-6 space-y-3 border-t hairline pt-6">
+                <dl className="mt-5 space-y-3 border-t hairline pt-5">
                   <Meta label="Año" value={project.year} />
                   <Meta label="Locación" value={project.location} />
-                  {project.client && <Meta label="Cliente" value={project.client} />}
+                  <Meta label="Categoría" value={project.category} />
                 </dl>
 
                 {project.description && (
-                  <p className="mt-6 text-sm leading-relaxed text-paper/60">
+                  <p className="mt-5 hidden text-sm leading-relaxed text-paper/60 lg:block">
                     {project.description}
                   </p>
                 )}
               </motion.div>
             </div>
+
+            {/* Mobile control bar: clear prev/next + swipe hint */}
+            {total > 1 && (
+              <div className="mt-6 flex items-center gap-6 lg:hidden">
+                <ArrowButton dir="left" onClick={prev} />
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                  Desliza
+                </span>
+                <ArrowButton dir="right" onClick={next} />
+              </div>
+            )}
           </div>
         </motion.div>
       )}
@@ -177,23 +207,29 @@ function Meta({ label, value }) {
   )
 }
 
-function NavArrow({ side, onClick }) {
-  const isLeft = side === 'left'
+function ArrowButton({ dir, onClick, className = '' }) {
+  const isLeft = dir === 'left'
   return (
     <button
       onClick={onClick}
       aria-label={isLeft ? 'Anterior' : 'Siguiente'}
-      className={`group absolute top-1/2 z-20 -translate-y-1/2 ${
-        isLeft ? 'left-2 md:left-6' : 'right-2 md:right-6'
-      } flex h-12 w-12 items-center justify-center`}
+      className={`group z-20 flex h-12 w-12 items-center justify-center rounded-full border border-paper/25 bg-ink/50 text-paper backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-paper hover:bg-paper hover:text-ink ${className}`}
     >
-      <span
-        className={`block font-mono text-2xl text-smoke transition-all duration-300 group-hover:text-paper ${
-          isLeft ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'
-        }`}
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        className={`transition-transform duration-300 ${isLeft ? 'group-hover:-translate-x-0.5' : 'group-hover:translate-x-0.5'}`}
       >
-        {isLeft ? '←' : '→'}
-      </span>
+        {isLeft ? (
+          <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        ) : (
+          <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+        )}
+      </svg>
     </button>
   )
 }
