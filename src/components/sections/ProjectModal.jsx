@@ -1,5 +1,10 @@
 import { useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { categories } from '../../data/projects'
+
+const categoryLabel = Object.fromEntries(
+  categories.filter((c) => c.id !== 'all').map((c) => [c.id, c.label]),
+)
 
 /**
  * Normalise any YouTube URL (youtu.be, youtube.com/watch, etc.)
@@ -190,7 +195,7 @@ export default function ProjectModal({ items, index, onClose, onNavigate }) {
                 <dl className="mt-5 space-y-3 border-t hairline pt-5">
                   <Meta label="Año" value={project.year} />
                   <Meta label="Locación" value={project.location} />
-                  <Meta label="Categoría" value={project.category} />
+                  <Meta label="Categoría" value={project.categoryLabel ?? categoryLabel[project.category] ?? project.category} />
                 </dl>
 
                 {project.description && (

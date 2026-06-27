@@ -15,10 +15,10 @@ export default function Footer() {
           </p>
           <div className="mt-2 flex flex-col gap-1">
             <a
-              href="mailto:Quicenocamila1331@gmail.com"
+              href="mailto:crear@hicamifilm.com"
               className="inline-block font-mono text-sm text-smoke transition-colors hover:text-paper"
             >
-              Quicenocamila1331@gmail.com
+              crear@hicamifilm.com
             </a>
             <a
               href="https://wa.me/573195253657"

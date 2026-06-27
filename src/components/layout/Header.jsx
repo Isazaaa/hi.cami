@@ -141,10 +141,10 @@ export default function Header() {
             >
               <span>Disponible para proyectos · 2026</span>
               <a
-                href="mailto:Quicenocamila1331@gmail.com"
+                href="mailto:crear@hicamifilm.com"
                 className="text-paper transition-opacity hover:opacity-60"
               >
-                Quicenocamila1331@gmail.com
+                crear@hicamifilm.com
               </a>
               <a
                 href="https://wa.me/573195253657"

@@ -85,3 +85,12 @@
 ::-webkit-scrollbar-thumb {
   background: var(--color-fog);
 }
+
+/* Hide scrollbar for horizontal reel strip */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
