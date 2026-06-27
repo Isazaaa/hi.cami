@@ -9,8 +9,8 @@ const paragraphs = [
 ]
 
 const stats = [
-  { value: '120+', label: 'Proyectos' },
   { value: '+5', label: 'Años' },
+  { value: '120+', label: 'Proyectos' },
   { value: '1000+', label: 'Videos editados' },
 ]
 
