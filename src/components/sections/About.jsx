@@ -9,7 +9,6 @@ const paragraphs = [
 ]
 
 const stats = [
-  { value: '8+', label: 'Años' },
   { value: '120+', label: 'Proyectos' },
   { value: '+5', label: 'Años' },
   { value: '1000+', label: 'Videos editados' },
@@ -83,7 +82,7 @@ export default function About() {
         </div>
 
         {/* Stats */}
-        <div className="mt-12 grid grid-cols-2 gap-6 border-t hairline pt-8 md:grid-cols-4">
+        <div className="mt-12 grid grid-cols-3 gap-6 border-t hairline pt-8">
           {stats.map((s, i) => (
             <Reveal key={s.label} index={i}>
               <p className="font-display text-4xl tracking-tight text-paper md:text-5xl">
