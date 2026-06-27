@@ -28,7 +28,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={ref}
-      className="relative flex h-screen min-h-[640px] items-end overflow-hidden"
+      className="relative flex h-screen min-h-[640px] flex-col overflow-hidden"
     >
       {/* Featured visual with parallax + progressive load */}
       <motion.div style={{ y: imageY }} className="absolute inset-0 -z-10 scale-110">
@@ -42,7 +42,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Headline */}
-      <motion.div style={{ y: textY, opacity: fade } } className="relative w-full px-6 pb-16 md:px-10 md:pb-24">
+      <motion.div style={{ y: textY, opacity: fade } } className="relative mt-auto w-full px-6 pb-16 md:px-10 md:pb-24">
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -62,7 +62,7 @@ export default function Header() {
         initial={{ y: -120 }}
         animate={{ y: hidden ? -120 : 0 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed inset-x-0 top-0 z-[55] flex items-center justify-between px-6 py-5 md:px-10"
+        className="fixed inset-x-0 top-0 z-[55] flex items-center justify-between bg-ink/20 px-6 py-5 backdrop-blur-md md:px-10"
       >
         {/* Logo mark */}
         <button
