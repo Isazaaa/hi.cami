@@ -38,7 +38,6 @@ function ProjectCard({ project, onOpen }) {
 
       {/* Legibility gradient (always) + hover darkening (desktop only) */}
       <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent transition-colors duration-500 can-hover:from-ink/40 can-hover:group-hover:from-ink/70" />
-      <div className="pointer-events-none absolute inset-4 border border-paper/0 transition-colors duration-500 can-hover:group-hover:border-paper/30" />
 
       {/* Metadata — visible by default on touch, revealed on hover on desktop */}
       <div className="absolute inset-0 flex flex-col justify-between p-5">
