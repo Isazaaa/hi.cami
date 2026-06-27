@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import BlurImage from '../ui/BlurImage'
 
-const title = ['CAPTURO', 'HISTORIAS', 'QUE', 'LATEN']
+const title = ['CREO', 'IMÁGENES', 'QUE', 'RESPIRAN']
 
 const word = {
   hidden: { y: '110%' },
@@ -49,7 +49,7 @@ export default function Hero() {
           transition={{ delay: 0.1, duration: 0.6 }}
           className="mb-6 block font-mono text-[11px] uppercase tracking-[0.3em] text-smoke"
         >
-          Camila Quiceno — Filmmaker · Editor · Director
+          Camila Quiceno — Filmmaker & Editor
         </motion.span>
 
         <h1 className="font-display text-[15vw] leading-[0.85] tracking-tight text-paper md:text-[11vw]">
